@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-set -e
+set -eo pipefail
 
 cd "$(dirname "$0")"
 
 # Colors
 CYAN='\033[36m'
 GREEN='\033[32m'
+RED='\033[31m'
 DIM='\033[2m'
 RESET='\033[0m'
 
@@ -21,9 +22,17 @@ spin() {
     done
   done
 }
-start_spinner() { spin "$1" & SPINNER_PID=$!; }
+ERR_LOG=$(mktemp)
+start_spinner() { CURRENT_STEP="$1"; spin "$1" & SPINNER_PID=$!; }
 stop_spinner()  { kill "$SPINNER_PID" 2>/dev/null; wait "$SPINNER_PID" 2>/dev/null || true; printf "\r\033[K${GREEN}✔${RESET} %s\n" "$1"; SPINNER_PID=""; }
+fail_spinner()  { kill "$SPINNER_PID" 2>/dev/null; wait "$SPINNER_PID" 2>/dev/null || true; printf "\r\033[K${RED}✖${RESET} %s\n" "$1"; SPINNER_PID=""; }
+cleanup() {
+  [ -n "$SPINNER_PID" ] && fail_spinner "$CURRENT_STEP"
+  [ -s "$ERR_LOG" ] && printf "  %s\n" "$(cat "$ERR_LOG")"
+  rm -f "$ERR_LOG"
+}
+trap cleanup EXIT
 
 start_spinner "Stopping MySQL container"
-docker compose stop >/dev/null
+docker compose stop >/dev/null 2>"$ERR_LOG"
 stop_spinner "MySQL container stopped"
