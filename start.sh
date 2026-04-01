@@ -17,13 +17,13 @@ spin() {
   local msg="$1"
   while true; do
     for f in "${frames[@]}"; do
-      printf "\r  ${CYAN}%s${RESET} ${DIM}%s${RESET}" "$f" "$msg"
+      printf "\r${CYAN}%s${RESET} ${DIM}%s${RESET}" "$f" "$msg"
       sleep 0.08
     done
   done
 }
 start_spinner() { spin "$1" & SPINNER_PID=$!; }
-stop_spinner()  { kill "$SPINNER_PID" 2>/dev/null; wait "$SPINNER_PID" 2>/dev/null || true; printf "\r\033[K  ${GREEN}✔${RESET} %s\n" "$1"; SPINNER_PID=""; }
+stop_spinner()  { kill "$SPINNER_PID" 2>/dev/null; wait "$SPINNER_PID" 2>/dev/null || true; printf "\r\033[K${GREEN}✔${RESET} %s\n" "$1"; SPINNER_PID=""; }
 
 # Download Sakila sample database if not present
 if [ ! -d "sakila-db" ]; then
