@@ -25,5 +25,5 @@ start_spinner() { spin "$1" & SPINNER_PID=$!; }
 stop_spinner()  { kill "$SPINNER_PID" 2>/dev/null; wait "$SPINNER_PID" 2>/dev/null || true; printf "\r\033[K${GREEN}✔${RESET} %s\n" "$1"; SPINNER_PID=""; }
 
 start_spinner "Stopping MySQL container"
-docker compose stop &>/dev/null
+docker compose stop >/dev/null
 stop_spinner "MySQL container stopped"
