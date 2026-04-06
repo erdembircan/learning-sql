@@ -11,11 +11,6 @@ services:
       - mysql-data:/var/lib/mysql
       - ./sakila-db:/docker-entrypoint-initdb.d
       - ./.my.cnf:/root/.my.cnf:ro
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
 
 volumes:
   mysql-data:
