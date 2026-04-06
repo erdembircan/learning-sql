@@ -16,6 +16,15 @@ Practice environment for [*Learning SQL, 3rd Edition*](https://www.amazon.com/Le
 
 `start.sh` is all you need — it downloads the Sakila database on first run, starts the Docker container, waits for MySQL to be ready, and drops you into a `mysql` shell connected to the `sakila` database. Use `reset.sh` to start completely fresh.
 
+## Environment
+
+The `.env` file is the single source of truth for MySQL credentials and database name. Both `docker-compose.yml` and `start.sh` read from it.
+
+| Variable             | Default | Description            |
+| -------------------- | ------- | ---------------------- |
+| `MYSQL_ROOT_PASSWORD`| `root`  | MySQL root password    |
+| `MYSQL_DATABASE`     | `sakila`| Default database name  |
+
 ## Requirements
 
 - Docker & Docker Compose

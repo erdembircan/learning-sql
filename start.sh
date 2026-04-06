@@ -3,6 +3,19 @@ set -eo pipefail
 
 cd "$(dirname "$0")"
 source lib/spinner.sh
+source .env
+
+# Generate .my.cnf from environment variables
+cat > .my.cnf <<EOF
+[mysql]
+user=root
+password=${MYSQL_ROOT_PASSWORD}
+database=${MYSQL_DATABASE}
+
+[mysqladmin]
+user=root
+password=${MYSQL_ROOT_PASSWORD}
+EOF
 
 # Download Sakila sample database if not present
 if [ ! -d "sakila-db" ]; then
@@ -20,10 +33,10 @@ stop_spinner "MySQL container started"
 
 # Wait for MySQL to be fully ready (ping succeeds before init scripts finish)
 start_spinner "Waiting for MySQL to be ready"
-until docker compose exec mysql mysql -uroot -proot -e "SELECT 1" >/dev/null 2>&1; do
+until docker compose exec mysql mysql -e "SELECT 1" >/dev/null 2>&1; do
   sleep 2
 done
 stop_spinner "MySQL is ready"
 
 echo ""
-docker compose exec mysql mysql -uroot -proot sakila
+docker compose exec mysql mysql
