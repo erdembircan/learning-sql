@@ -9,9 +9,10 @@ Practice environment for [*Learning SQL, 3rd Edition*](https://www.amazon.com/Le
 ## Quick start
 
 ```bash
-./start.sh   # downloads Sakila, starts MySQL, connects
-./stop.sh    # stops the container
-./reset.sh   # removes everything (containers, volumes, images, downloaded files)
+./start.sh        # downloads Sakila, starts MySQL, connects
+./start.sh --vim  # same as above, with vim keybindings in the MySQL prompt
+./stop.sh         # stops the container
+./reset.sh        # removes everything (containers, volumes, images, downloaded files)
 ```
 
 `start.sh` is all you need — it downloads the Sakila database on first run, starts the Docker container, waits for MySQL to be ready, and drops you into a `mysql` shell connected to the `sakila` database. Use `reset.sh` to start completely fresh.

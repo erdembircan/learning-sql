@@ -5,6 +5,9 @@ cd "$(dirname "$0")"
 source lib/spinner.sh
 source .env
 
+VIM_MODE=false
+[[ "$1" == "--vim" ]] && VIM_MODE=true
+
 # Generate .my.cnf from environment variables
 cat > .my.cnf <<EOF
 [mysql]
@@ -39,4 +42,8 @@ done
 stop_spinner "MySQL is ready"
 
 echo ""
-docker compose exec mysql mysql
+if [[ "$VIM_MODE" == true ]]; then
+  docker compose exec mysql rlwrap -a mysql
+else
+  docker compose exec mysql mysql
+fi

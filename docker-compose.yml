@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: mysql:8.0
+    build: .
     container_name: learning-sql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
