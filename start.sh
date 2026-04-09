@@ -6,7 +6,13 @@ source lib/spinner.sh
 source .env
 
 VIM_MODE=false
-[[ "$1" == "--vim" ]] && VIM_MODE=true
+WEB_MODE=false
+for arg in "$@"; do
+  case "$arg" in
+    --vim) VIM_MODE=true ;;
+    --web) WEB_MODE=true ;;
+  esac
+done
 
 # Generate .my.cnf from environment variables
 cat > .my.cnf <<EOF
@@ -30,9 +36,15 @@ if [ ! -d "sakila-db" ]; then
 fi
 
 # Start the container
-start_spinner "Starting MySQL container"
-docker compose up -d >/dev/null 2>"$ERR_LOG"
-stop_spinner "MySQL container started"
+if [[ "$WEB_MODE" == true ]]; then
+  start_spinner "Starting MySQL and Adminer containers"
+  docker compose up -d mysql adminer >/dev/null 2>&1
+  stop_spinner "MySQL and Adminer containers started"
+else
+  start_spinner "Starting MySQL container"
+  docker compose up -d mysql >/dev/null 2>"$ERR_LOG"
+  stop_spinner "MySQL container started"
+fi
 
 # Wait for MySQL to be fully ready (ping succeeds before init scripts finish)
 start_spinner "Waiting for MySQL to be ready"
@@ -42,7 +54,10 @@ done
 stop_spinner "MySQL is ready"
 
 echo ""
-if [[ "$VIM_MODE" == true ]]; then
+if [[ "$WEB_MODE" == true ]]; then
+  echo "Adminer is running at http://localhost:${ADMINER_PORT}"
+  echo "Server: mysql | User: root | Password: ${MYSQL_ROOT_PASSWORD} | Database: ${MYSQL_DATABASE}"
+elif [[ "$VIM_MODE" == true ]]; then
   docker compose exec mysql rlwrap -a mysql
 else
   docker compose exec mysql mysql
