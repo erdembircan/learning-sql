@@ -1,4 +1,4 @@
-FROM mysql:8.0
+FROM mysql:latest
 
 RUN microdnf install -y oracle-epel-release-el9 && \
     microdnf install -y rlwrap && \

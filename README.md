@@ -4,7 +4,7 @@
 
 # Learning SQL
 
-Practice environment for [*Learning SQL, 3rd Edition*](https://www.amazon.com/Learning-SQL-Generate-Manipulate-Retrieve/dp/1492057614) by Alan Beaulieu. Runs MySQL 8.0 with the [Sakila sample database](https://dev.mysql.com/doc/sakila/en/) in Docker.
+Practice environment for [*Learning SQL, 3rd Edition*](https://www.amazon.com/Learning-SQL-Generate-Manipulate-Retrieve/dp/1492057614) by Alan Beaulieu. Runs MySQL (latest) with the [Sakila sample database](https://dev.mysql.com/doc/sakila/en/) in Docker.
 
 ## Quick start
 
