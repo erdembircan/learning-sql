@@ -32,6 +32,7 @@ if [ ! -d "sakila-db" ]; then
   curl -sSfL https://downloads.mysql.com/docs/sakila-db.tar.gz 2>"$ERR_LOG" | tar xz 2>"$ERR_LOG"
   mv sakila-db/sakila-schema.sql sakila-db/01-sakila-schema.sql
   mv sakila-db/sakila-data.sql sakila-db/02-sakila-data.sql
+  cp 03-chapter16.sql sakila-db/03-chapter16.sql
   stop_spinner "Sakila sample database downloaded"
 fi
 
