@@ -11,6 +11,11 @@ services:
       - mysql-data:/var/lib/mysql
       - ./sakila-db:/docker-entrypoint-initdb.d
       - ./.my.cnf:/root/.my.cnf:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
 
   adminer:
     image: adminer
@@ -24,7 +29,8 @@ services:
     ports:
       - "${ADMINER_PORT}:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
 volumes:
   mysql-data:
