@@ -40,6 +40,18 @@ function adminer_object() {
                 document.forms[0].submit();
             </script>";
         }
+
+        function head($Mb = null) {
+            if (isset($_GET['sql'])) {
+                echo "<script" . nonce() . ">
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var cb = document.querySelector('input[name=\"error_stops\"]');
+                        if (cb && !cb.checked) cb.checked = true;
+                    });
+                </script>\n";
+            }
+            return true;
+        }
     }
     return new AdminerAutoLogin;
 }

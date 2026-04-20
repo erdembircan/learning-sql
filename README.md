@@ -28,6 +28,21 @@ The `.env` file is the single source of truth for MySQL credentials and database
 | `MYSQL_DATABASE`     | `sakila`| Default database name  |
 | `ADMINER_PORT`       | `8080`  | Adminer web UI port    |
 
+## Extra tables
+
+The `extras/` directory contains additional tables used for chapter exercises that aren't part of the Sakila sample database. These are automatically loaded on first start.
+
+| File | Tables | Purpose |
+| ---- | ------ | ------- |
+| `03-chapter12.sql` | `account`, `transaction_` | Transaction exercises |
+| `04-chapter16.sql` | `sales_fact` | Analytic function exercises |
+
+## Adminer customizations
+
+- Auto-login with credentials from `.env`
+- Auto-select the Sakila database on login
+- `Stop on error` enabled by default on the SQL command page
+
 ## Requirements
 
 - Docker & Docker Compose
